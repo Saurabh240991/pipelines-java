@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/saurabh110894/saurabh110894/_apis/build/status/Saurabh240991.pipelines-java?branchName=master)](https://dev.azure.com/saurabh110894/saurabh110894/_build/latest?definitionId=1&branchName=master)
 
 # Contributing
 
