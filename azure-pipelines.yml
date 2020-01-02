@@ -6,24 +6,39 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
-
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: "JaCoCo"
-    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
-    failIfCoverageEmpty: true
+name: 'set-azure-appservice-connectionstring'
+description: 'This Action sets a connection string setting in an Azure App Service instance'
+author: 'abelsquidhead'
+inputs:
+  servicePrincipal:
+    description: 'The Azure service principal used to update the Azure App Service'
+    required: true
+  servicePrincipalTenant:
+    description: 'The Tenant ID for the service principal'
+    required: true
+  servicePrincipalSecret:
+    description: 'The service principal secret'
+    required: true
+  azureSubscriptionName:
+    description: 'The name of the azure subscription to log into'
+    required: true
+  resourceGroup:
+    description: 'The name of the resource group which the database resides in'
+    required: true
+  appService:
+    description: 'The name of your Azure App Service instance'
+    required: true
+  connectionStringType:
+    description: 'The type of database this connection string is for. Values can be MySQL, SQLServer, SQLAzure, PostgreSQL, Custom'
+    default: 'SQLAzure'
+    required: false
+  connectionString:
+    description: 'The actual connection string value'
+    required: true
+  connectionStringName:
+    description: 'Name of the connection string'
+    default: 'DefaultConnection'
+    required: false
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
